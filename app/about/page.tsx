@@ -158,7 +158,7 @@ export default function Page() {
           width={1536}
           height={1024}
           priority
-          className="h-[44vh] w-auto sm:h-[51vh] md:h-[58vh] lg:h-[60vh] lg:translate-x-[3vw] lg:translate-y-[2vh] xl:h-[69vh]"
+          className="h-auto w-[80vw] max-w-[440px] md:h-[58vh] md:w-auto md:max-w-none lg:h-[60vh] lg:translate-x-[3vw] lg:translate-y-[2vh] xl:h-[69vh]"
           style={{
             maskImage:
               "radial-gradient(ellipse 58% 58% at 50% 50%, black 45%, transparent 88%)",
