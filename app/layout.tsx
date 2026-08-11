@@ -17,8 +17,6 @@ const SITE_URL = "https://xiaoliangpiano.com";
 const SITE_TITLE = "Xiao Liang | Pianist · Educator · Researcher";
 const SITE_DESCRIPTION =
   "Official website of Xiao Liang, pianist, educator, and researcher. Explore performances, projects, research, conference presentations, and upcoming events.";
-const OG_DESCRIPTION =
-  "Official website of Xiao Liang, pianist, educator, and researcher.";
 const OG_IMAGE_URL = "/images/app/og-image.png";
 const OG_IMAGE_ALT = "Xiao Liang — Pianist, Educator, Researcher";
 
@@ -31,7 +29,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: SITE_TITLE,
-    description: OG_DESCRIPTION,
+    description: " ",
     url: SITE_URL,
     siteName: "Xiao Liang",
     type: "website",
@@ -47,7 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
-    description: OG_DESCRIPTION,
+    description: " ",
     images: [OG_IMAGE_URL],
   },
   robots: {
