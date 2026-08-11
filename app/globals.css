@@ -24,3 +24,221 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ==========================================================================
+   Projects — Five Elements ring geometry
+   Adapted from the Unbound Piano Duo "Five Elements" orbital ring
+   (src/components/project/FiveElementsRing.tsx + globals.css). Interaction
+   logic and layout geometry are unchanged; only the palette below was
+   reworked for this site's light lavender/ivory background.
+   ========================================================================== */
+
+:root {
+  /* The oval bounding box the five elements orbit within — wider than
+     tall so the arrangement reads as a ring gently tilted toward the
+     viewer, without any 3D perspective. Sized so the artworks sit close
+     enough to read as one system while keeping the center generously
+     open. */
+  --project-ring-stage-w: clamp(495px, 46vw, 690px);
+  --project-ring-stage-h: clamp(320px, 30vw, 425px);
+  /* Compact, cinematic-ratio artwork tiles (1.4:1) — small relative to
+     the ring so all five stay legible and roughly equal in size. */
+  --project-ring-panel-w: clamp(126px, 10.5vw, 180px);
+}
+
+@media (max-width: 767px) {
+  :root {
+    /* Smaller viewports have much less room to shrink the orbit and grow
+       the artwork at the same time without the panels colliding — the
+       horizontal radius still comes down meaningfully (closer together),
+       but panel growth stays flat here so no pair ever overlaps through
+       a full rotation (checked numerically, not just at one angle). */
+    --project-ring-stage-w: clamp(300px, 87vw, 350px);
+    --project-ring-stage-h: clamp(220px, 65vw, 270px);
+    --project-ring-panel-w: clamp(84px, 23.5vw, 100px);
+  }
+}
+
+.project-ring-stage {
+  position: relative;
+  width: var(--project-ring-stage-w);
+  height: var(--project-ring-stage-h);
+  max-width: 100%;
+  margin-inline: auto;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.project-ring-stage:active {
+  cursor: grabbing;
+}
+
+.project-ring-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--project-ring-panel-w);
+  aspect-ratio: 1.4 / 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  appearance: none;
+  border: none;
+  padding: 4px 12px;
+  cursor: pointer;
+  /* No radius or shadow — a compact artwork fragment, not a UI card. */
+  will-change: transform, opacity, filter;
+}
+
+.project-ring-panel:focus-visible {
+  outline: 1px solid rgba(139, 111, 217, 0.55);
+  outline-offset: 2px;
+}
+
+.project-ring-panel-label {
+  font-size: clamp(0.6rem, 0.35vw + 0.48rem, 0.75rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b5b80;
+  transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-ring-panel.is-hovered .project-ring-panel-label,
+.project-ring-panel.is-active .project-ring-panel-label {
+  color: #2e1a47;
+}
+
+/* Palette — pale, desaturated pastels standing in for the traditional
+   Wuxing colors, tuned to sit comfortably on this site's lavender/ivory
+   background rather than the dark stage the original tones were built for. */
+.element-tone-metal {
+  /* pearl / cool lavender-gray */
+  background: linear-gradient(120deg, #dad5e3 0%, #c4bdd4 100%);
+}
+
+.element-tone-water {
+  /* misty periwinkle / soft blue-lavender */
+  background: linear-gradient(120deg, #cfd5ee 0%, #b7c0e0 100%);
+}
+
+.element-tone-wood {
+  /* muted sage with a lavender undertone */
+  background: linear-gradient(120deg, #d7e0cd 0%, #bfd0bc 100%);
+}
+
+.element-tone-fire {
+  /* dusty rose / soft mauve */
+  background: linear-gradient(120deg, #e6c9d2 0%, #d3a8b6 100%);
+}
+
+.element-tone-earth {
+  /* warm blush beige / muted sand */
+  background: linear-gradient(120deg, #e8d9c2 0%, #d4be9c 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-ring-panel-label {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Calendar — journey reveal (triggered on scroll into view)
+   Adapted from the Unbound Piano Duo Calendar component
+   (src/components/calendar/Calendar.tsx + globals.css). Keyframes and
+   reveal-on-scroll classes are unchanged; colors are applied inline via
+   Tailwind classes in app/calendar/Calendar.tsx for this site's light
+   lavender/ivory palette.
+   ========================================================================== */
+
+:root {
+  --cal-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --cal-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes cal-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cal-marker-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cal-line-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes cal-line-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.cal-title-in,
+.cal-next-in,
+.cal-marker {
+  opacity: 0;
+}
+
+.cal-line {
+  transform: scaleX(0);
+}
+
+.cal-line-vertical {
+  transform: scaleY(0);
+}
+
+.cal-in-view .cal-title-in {
+  animation: cal-rise-in 0.8s var(--cal-ease-emphasized) 0.1s forwards;
+}
+
+.cal-in-view .cal-line {
+  animation: cal-line-draw-x 0.9s var(--cal-ease-emphasized) 0.5s forwards;
+}
+
+.cal-in-view .cal-line-vertical {
+  animation: cal-line-draw-y 0.9s var(--cal-ease-emphasized) 0.5s forwards;
+}
+
+.cal-in-view .cal-marker {
+  animation: cal-marker-in 0.45s var(--cal-ease-standard) forwards;
+}
+
+.cal-in-view .cal-next-in {
+  animation: cal-rise-in 0.8s var(--cal-ease-emphasized) 1.6s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-title-in,
+  .cal-next-in,
+  .cal-marker,
+  .cal-line,
+  .cal-line-vertical {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
